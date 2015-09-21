@@ -1,1 +1,455 @@
 http://passport.9wee.com/app/register.php?step=2
+格式化头信息
+
+HTTP/1.1 200 OK
+
+Server: nginx
+
+Date: Sun, 20 Sep 2015 08:13:02 GMT
+
+Content-Type: text/html; charset=UTF-8
+
+Vary: Accept-Encoding, Accept-Encoding
+
+Set-Cookie: CWSSESSID=1215936fbd7858788f303d7da4160b08; path=/
+db_idx_session=0
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Transfer-Encoding: chunked
+
+
+
+格式化头信息
+
+GET /app/register.php?step=2 HTTP/1.1
+
+Host: passport.9wee.com
+
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+
+Accept-Encoding: gzip, deflate
+
+Cookie: __utma=1831918.1379181802.1441183404.1441959515.1442553530.6; __utmz=1831918.1442553530.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; registerTime=XDAGMgQ1XG8BMFAyAWNbYVJqXWE%3D
+
+Connection: keep-alive
+
+
+
+
+格式化头信息
+
+HTTP/1.1 200 OK
+
+Server: nginx
+
+Date: Sun, 20 Sep 2015 02:15:26 GMT
+
+Content-Type: text/html; charset=UTF-8
+
+Vary: Accept-Encoding
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Set-Cookie: db_idx_session=0
+
+Transfer-Encoding: chunked
+
+
+
+格式化头信息
+
+GET /app/register.php?step=2 HTTP/1.1
+
+Host: passport.9wee.com
+
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+
+Accept-Encoding: gzip, deflate
+
+Referer: http://www.9wee.com/
+
+Cookie: db_idx_session=0; __utma=1831918.1379181802.1441183404.1441959515.1442553530.6; __utmz=1831918.1442553530.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; registerTime=VTkBNVVkV2RRZFI4DWhcaAEzWm4%3D; CWSSESSID=5cfcef8878dd31975b2d9cfb31d1fd91; verifyCode=4384
+
+Connection: keep-alive
+
+Cache-Control: max-age=0
+
+
+db_idx_session=0; path=/
+__utma=1831918.1379181802.1441183404.1441959515.1442553530.6; path=/
+__utmz=1831918.1442553530.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; path=/
+registerTime=VTkBNVVkV2RRZFI4DWhcaAEzWm4%3D; path=/
+CWSSESSID=5cfcef8878dd31975b2d9cfb31d1fd91; path=/
+verifyCode=4384; path=/
+
+/*********************************************
+http://passport.9wee.com/common/verify_code.php?1442737436071
+格式化头信息
+
+HTTP/1.1 200 OK
+
+Server: nginx
+
+Date: Sun, 20 Sep 2015 08:28:22 GMT
+
+Content-Type: image/jpeg
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Set-Cookie: verifyCode=8879; path=/; domain=.9wee.com
+
+Transfer-Encoding: chunked
+
+
+
+格式化头信息
+
+GET /common/verify_code.php?1442737436071 HTTP/1.1
+
+Host: passport.9wee.com
+
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0
+
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+
+Accept-Encoding: gzip, deflate
+
+Referer: http://passport.9wee.com/app/register.php?step=2
+
+Cookie: __utma=1831918.1379181802.1441183404.1441959515.1442553530.6; __utmz=1831918.1442553530.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; registerTime=XDAGMgQ1XG8BMFAyAWNbYVJqXWE%3D; CWSSESSID=1215936fbd7858788f303d7da4160b08; verifyCode=1649
+
+Connection: keep-alive
+
+
+
+/******************************************************
+http://passport.9wee.com/app/check.php?act=code&code=8879
+格式化头信息
+
+HTTP/1.1 200 OK
+
+Server: nginx
+
+Date: Sun, 20 Sep 2015 08:29:11 GMT
+
+Content-Type: text/html; charset=UTF-8
+
+Vary: Accept-Encoding, Accept-Encoding
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Transfer-Encoding: chunked
+
+
+
+格式化头信息
+
+GET /app/check.php?act=code&code=8879 HTTP/1.1
+
+Host: passport.9wee.com
+
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+
+Accept-Encoding: gzip, deflate
+
+Referer: http://passport.9wee.com/app/register.php?step=2
+
+Cookie: db_idx_session=0; __utma=1831918.1379181802.1441183404.1441959515.1442553530.6; __utmz=1831918.1442553530.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; registerTime=XDAGMgQ1XG8BMFAyAWNbYVJqXWE%3D; CWSSESSID=1215936fbd7858788f303d7da4160b08; verifyCode=8879
+
+Connection: keep-alive
+
+
+
+
+
+
+/*********************************************
+http://passport.9wee.com/app/register.php?ac=add
+请求头
+Accept	
+text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Encoding	
+gzip, deflate
+Accept-Language	
+zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Connection	
+keep-alive
+Cookie	
+db_idx_session=0; __utma=1831918.1379181802.1441183404.1441959515.1442553530.6; __utmz=1831918.1442553530
+.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; registerTime=VTkBNVVkV2RRZFI4DWhcaAEzWm4
+%3D; CWSSESSID=5cfcef8878dd31975b2d9cfb31d1fd91; verifyCode=4157
+Host	
+passport.9wee.com
+Referer	
+http://passport.9wee.com/app/register.php?step=2
+User-Agent	
+Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0
+响应头
+Cache-Control	
+no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Content-Type	
+text/html; charset=UTF-8
+Date	
+Sun, 20 Sep 2015 02:25:56 GMT
+Expires	
+Thu, 19 Nov 1981 08:52:00 GMT
+Location	
+/app/register.php?ac=success
+Pragma	
+no-cache
+Server	
+nginx
+Set-Cookie	
+db_idx_session=0
+registerTime=XDAGMgQ1XG8BMFAyAWNbYVJqXWE%3D; expires=Mon, 19-Sep-2016 02:21:31 GMT; path=/
+passportSession=XXsHJVUjBmJUIQIiUG5ZOgZpXQ5VPgYzVnBQPF1%2BACNTIlp4VSUFbVAyXSxRPFp0VGRaZQAzBmJTZFA0AT
+JWZF04ByVVfAYlVCcCIlBiWScGaV0wVToGMlZwUDxdfgBpU2RaI1VhBTRQY10sUSpadFQ7Wj8AYQY8UzlQZwFtVjJdIgc9VXIGW1QnAmRQYVlnBjddDVUiBmNWN1A2XWUAI1MiWnhVIwVhUDVde1F0WjNUClo6AG0GMFM
+%2BUGgBIlZtXXQHdVUlBmJUfgJzUHJZOwZuXT5VOQYIViFQb10oAGRTLFpgVXIFJlB6XSxRY1o7VDRaPwBuBnVTbVBoAXVWO11sB
+ytVcgZ3VDMCIlB0WSIGaF0jVTMGdVZoUCRdbgA0Uzpaa1U0BTNQNF1tUWRaMFRiWmMAZwZhU2ZQMwE1VjNdMgdjVTEGN1RjAmdQMllhBmVdaFVvBjFWalA
+%2BXX4ALVMsWjZVPwVjUD9dYFFZWiVUMFolAHEGPlM4UGgBIlZtXSIHJVV8BiVUJgIiUCVZbwY2XWVVYwZlVmVQN11pADdTN1pqVXwFJlA1XWFRYlozVHdabAAgBmRTblA
+%2FATlWNF1jBzZVNgY3VGACMFAxWWUGYl01VW4GZlY2UDVdbwBnUzpaa1VhBWZQY109UTdaZVQ3WmIAYwZ1Uyo%3D; path=/
+weeCookie=%7B%22loginFlag%22%3Atrue%2C%22uid%22%3A%22131532238%22%2C%22username%22%3A%22hjy105%22%2C
+%22nickname%22%3A%22%5Cu5f20%5Cu4e09%22%2C%22email%22%3Anull%2C%22usertype%22%3A%220%22%2C%22urb%22%3A
+%221977-07-07%22%2C%22mac%22%3A%222c288dba71cbb013ee0ab835db9bd229%22%7D; path=/; domain=.9wee.com
+Transfer-Encoding	
+chunked
+
+post
+agree	=yes
+code=4157
+force	
+password=hhhh1111
+passwordcfm=hhhh1111
+user_idcard=110101197707072913
+user_truename=张三
+user_type	=0
+username=hjy105
+
+源代码
+username=hjy105&password=hhhh1111&passwordcfm=hhhh1111&user_truename=%E5%BC%A0%E4%B8%89&user_idcard=110101197707072913
+&code=4157&agree=yes&user_type=0&force=
+响应
+cookie
+db_idx_session=0
+registerTime=	XDAGMgQ1XG8BMFAyAWNbYVJqXWE=
+passportSession=XXsHJVUjBmJUIQIiUG5ZOgZpXQ5VPgYzVnBQPF1+ACNTIlp4VSUFbVAyXSxRPFp0VGRaZQAzBmJTZFA0ATJWZF04ByVVfAYlVCcC
+IlBiWScGaV0wVToGMlZwUDxdfgBpU2RaI1VhBTRQY10sUSpadFQ7Wj8AYQY8UzlQZwFtVjJdIgc9VXIGW1QnAmRQYVlnBjddDVUiBmNWN1A2XWUAI1MiWnhVIwVhUDVde1F0WjNUClo6AG0GMFM
++UGgBIlZtXXQHdVUlBmJUfgJzUHJZOwZuXT5VOQYIViFQb10oAGRTLFpgVXIFJlB6XSxRY1o7VDRaPwBuBnVTbVBoAXVWO11sByt
+VcgZ3VDMCIlB0WSIGaF0jVTMGdVZoUCRdbgA0Uzpaa1U0BTNQNF1tUWRaMFRiWmMAZwZhU2ZQMwE1VjNdMgdjVTEGN1RjAmdQMllhBmVdaFVvBjFWalA
++XX4ALVMsWjZVPwVjUD9dYFFZWiVUMFolAHEGPlM4UGgBIlZtXSIHJVV8BiVUJgIiUCVZbwY2XWVVYwZlVmVQN11pADdTN1pqVXwFJlA1XWFRYlozVHdabAAgBmRTblA
+/ATlWNF1jBzZVNgY3VGACMFAxWWUGYl01VW4GZlY2UDVdbwBnUzpaa1VhBWZQY109UTdaZVQ3WmIAYwZ1Uyo=
+weeCookie={"loginFlag":true,"uid":"131532238","username":"hjy105","nickname":"\u5f20\u4e09","email":null,"usertype"
+:"0","urb":"1977-07-07","mac":"2c288dba71cbb013ee0ab835db9bd229"}
+	原始内容=%7B%22loginFlag%22%3Atrue%2C%22uid%22%3A%22131532238%22%2C%22username%22%3A%22hjy105%22%2C%22nickname
+%22%3A%22%5Cu5f20%5Cu4e09%22%2C%22email%22%3Anull%2C%22usertype%22%3A%220%22%2C%22urb%22%3A%221977-07-07
+%22%2C%22mac%22%3A%222c288dba71cbb013ee0ab835db9bd229%22%7D
+	
+	
+http://passport.9wee.com/app/register.php?ac=success
+格式化头信息
+
+HTTP/1.1 200 OK
+
+Server: nginx
+
+Date: Sun, 20 Sep 2015 02:25:57 GMT
+
+Content-Type: text/html; charset=UTF-8
+
+Vary: Accept-Encoding, Accept-Encoding
+
+Set-Cookie: db_idx_session=0
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Transfer-Encoding: chunked
+
+
+
+格式化头信息
+
+GET /app/register.php?ac=success HTTP/1.1
+
+Host: passport.9wee.com
+
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+
+Accept-Encoding: gzip, deflate
+
+Referer: http://passport.9wee.com/app/register.php?step=2
+
+Cookie: db_idx_session=0; __utma=1831918.1379181802.1441183404.1441959515.1442553530.6; __utmz=1831918.1442553530.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; registerTime=XDAGMgQ1XG8BMFAyAWNbYVJqXWE%3D; CWSSESSID=5cfcef8878dd31975b2d9cfb31d1fd91; verifyCode=4157; passportSession=XXsHJVUjBmJUIQIiUG5ZOgZpXQ5VPgYzVnBQPF1%2BACNTIlp4VSUFbVAyXSxRPFp0VGRaZQAzBmJTZFA0ATJWZF04ByVVfAYlVCcCIlBiWScGaV0wVToGMlZwUDxdfgBpU2RaI1VhBTRQY10sUSpadFQ7Wj8AYQY8UzlQZwFtVjJdIgc9VXIGW1QnAmRQYVlnBjddDVUiBmNWN1A2XWUAI1MiWnhVIwVhUDVde1F0WjNUClo6AG0GMFM%2BUGgBIlZtXXQHdVUlBmJUfgJzUHJZOwZuXT5VOQYIViFQb10oAGRTLFpgVXIFJlB6XSxRY1o7VDRaPwBuBnVTbVBoAXVWO11sBytVcgZ3VDMCIlB0WSIGaF0jVTMGdVZoUCRdbgA0Uzpaa1U0BTNQNF1tUWRaMFRiWmMAZwZhU2ZQMwE1VjNdMgdjVTEGN1RjAmdQMllhBmVdaFVvBjFWalA%2BXX4ALVMsWjZVPwVjUD9dYFFZWiVUMFolAHEGPlM4UGgBIlZtXSIHJVV8BiVUJgIiUCVZbwY2XWVVYwZlVmVQN11pADdTN1pqVXwFJlA1XWFRYlozVHdabAAgBmRTblA%2FATlWNF1jBzZVNgY3VGACMFAxWWUGYl01VW4GZlY2UDVdbwBnUzpaa1VhBWZQY109UTdaZVQ3WmIAYwZ1Uyo%3D; weeCookie=%7B%22loginFlag%22%3Atrue%2C%22uid%22%3A%22131532238%22%2C%22username%22%3A%22hjy105%22%2C%22nickname%22%3A%22%5Cu5f20%5Cu4e09%22%2C%22email%22%3Anull%2C%22usertype%22%3A%220%22%2C%22urb%22%3A%221977-07-07%22%2C%22mac%22%3A%222c288dba71cbb013ee0ab835db9bd229%22%7D
+
+Connection: keep-alive
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional
+.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>九维网-用户中心</title>
+<meta name="keywords" content="九维网,网页游戏,网页游戏大全,最新网页游戏,网页游戏厂商,网页游戏平台,webgame,小游戏,新手卡,英雄卡,联合运营">
+<meta name="description" content="网页游戏的领航者九维网是从事开发和运营网页游戏的游戏平台,被评为2009年最佳网页游戏运营商,为广大网友提供武林英雄,小李飞刀,天策
+,武林三国,武林足球经理II,武林足球经理, 商业大亨, 等最新网页游戏产品,精彩活动,游戏攻略,游戏服务">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<link href="/common/usercenter2/login_box.css" rel="stylesheet" type="text/css" />
+<link href="/common/usercenter2/index.css" rel="stylesheet" type="text/css" />
+<link href="/General/css/ht2.css" rel="stylesheet" type="text/css" />
+<link href="http://www.9wee.com/General/css/ht_common.css" rel="stylesheet" type="text/css" />
+<link href="http://static.cache.9wee.com/favicon.ico" rel="bookmark" type="image/x-icon" />
+<link href="http://static.cache.9wee.com/favicon.ico" rel="icon" type="image/x-icon" />
+<link href="http://static.cache.9wee.com/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="http://static.cache.9wee.com/favicon.png" rel="apple-touch-icon" />
+<script type="text/javascript" src="/common/usercenter2/js/jquery.js"></script>
+<script type="text/javascript" src="/api/affiche.php"></script>
+<script type="text/javascript" src="/script/wee/weebox.js"></script>
+<link type="text/css" rel="stylesheet" href="/script/wee/weebox.css" />
+<script src="/General/js/general.js"></script>
+</head>
+<body>
+<div class="com_header" id="com_header"></div>
+<script type="text/javascript" src="http://www.9wee.com/General/js/ht_common.js"></script>
+<div class="com_banner_box" id="com_banner_box"></div>
+<script type="text/javascript" src="http://www.9wee.com/General/js/ht_show.js"></script>
+<script type="text/javascript" src="http://www.9wee.com/index.php?ctl=index&ac=firstnews&types=19,20
+&callback=showAD"></script>
+<script type="text/javascript" src="http://www.9wee.com/General/js/upscroll.js"></script>
+<script type="text/javascript">
+	var ret;
+var weeCookie = getCookie ( 'weeCookie' );
+if ( weeCookie )
+{
+	eval ( 'var ret = ' + weeCookie + ';' );
+} 
+ 	if ( ret && ret.loginFlag ){
+  	$('#a_zc').css('display','none');
+  	$('#a_dl').css('display','none');
+	$('#a_tc').show();
+	}
+	function changeVerifyCode ()
+{
+	var obj = document.getElementById ( 'imgVerifyCode' );
+	if ( obj )
+	{
+		obj.style.visibility = 'visible';
+		obj.src = '/common/verify_code.php?' + new Date().getTime();
+	}
+}
+function getQueryStringRegExp(name)
+{
+    var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");
+    if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\+/g, " ")); return "";
+}
+ </script>
+<!--登录弹出窗开始-->
+<div id="maskLayer"></div>
+<div id="login_box" style="display:none;">
+            <div class="rrs_box_t"></div>
+            <div class="rrs_box_c">
+            <h5><span>欢迎登录九维网</span><a class="RRSclose loginclose" href="javascript:;"></a></h5>
+              <div class="rrs_con">
+              <form action="/app/login.php?ac=login" name="formPassportLogin" id="formPassportLogin"
+ method="post"> 
+            <input type="hidden" value="http://passport.9wee.com/app/register.php?step=2" name="_REFERER"
+>
+                <ul>
+                  <li class="save" style="line-height:2.8em;">
+                     <p class="login_input01"><input type="text" onclick="clear_text();" id="username"
+  name="username" tabindex="1" ><a href="/app/findpsw.php">忘记密码</a></p>
+                     <p class="login_input01 login_input02"><input  type="password" id="password" name
+="password" tabindex="2" ><a href="/app/register.php">我要注册</a></p>
+                     <p style="line-height:1.5em;color:#EC6700;padding-top:10px;padding-left:2px;">登
+录后您可以：查询积分、等级以及个人<br>信息，参加九维在线活动、积分兑换活动</p>
+                  </li>
+                  <li style="text-align:center;width:416px;padding-left:0px;padding-top:12px;"><input
+ type="submit"  value="用户登录" class="btn04" tabindex="3"></li>
+                </ul>
+                </form>
+               </div>
+             </div>
+            <div class="rrs_box_b"></div>
+     </div>
+<!--登录弹出窗结束-->
+<meta http-equiv="refresh" content="4;url=http://passport.9wee.com/app/register.php?step=2">
+   <div class="com_main">
+    	<div class="reg_success">
+            <div class="sub_tit" ><div class="sub_tit_box">用户注册</div></div>
+            <p class="reg_success_box">
+            	<strong class="success_box_h1">恭喜你注册成功啦！</strong>
+                <a href="http://passport.9wee.com/app/register.php?step=2">点击这里返回&gt;&gt;</a>
+                <span>4秒后自动跳转回首页</span>
+            </p>
+        </div>
+   </div>
+ 
+<script language="javascript">
+	    document.write(General_html['foot_con']);//输出尾部html2012-4-19
+</script>
+
+<script type="text/javascript" src="/General/js/index.js"></script>
+
+<script>
+	var date=new Date();
+	$('#copyright').text("Copyright © 2006 - "+date.getFullYear()+" ChenLu Inc. All Rights Reserved");
+
+</script>
+</body>
+</html>
+
+cookie
+
+sended
+
+db_idx_session=0; path=/
+__utma=1831918.1379181802.1441183404.1441959515.1442553530.6; path=/
+__utmz=1831918.1442553530.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; path=/
+registerTime=XDAGMgQ1XG8BMFAyAWNbYVJqXWE%3D; path=/
+CWSSESSID=5cfcef8878dd31975b2d9cfb31d1fd91; path=/
+verifyCode=4157; path=/
+passportSession=XXsHJVUjBmJUIQIiUG5ZOgZpXQ5VPgYzVnBQPF1%2BACNTIlp4VSUFbVAyXSxRPFp0VGRaZQAzBmJTZFA0ATJWZF04ByVVfAYlVCcCIlBiWScGaV0wVToGMlZwUDxdfgBpU2RaI1VhBTRQY10sUSpadFQ7Wj8AYQY8UzlQZwFtVjJdIgc9VXIGW1QnAmRQYVlnBjddDVUiBmNWN1A2XWUAI1MiWnhVIwVhUDVde1F0WjNUClo6AG0GMFM%2BUGgBIlZtXXQHdVUlBmJUfgJzUHJZOwZuXT5VOQYIViFQb10oAGRTLFpgVXIFJlB6XSxRY1o7VDRaPwBuBnVTbVBoAXVWO11sBytVcgZ3VDMCIlB0WSIGaF0jVTMGdVZoUCRdbgA0Uzpaa1U0BTNQNF1tUWRaMFRiWmMAZwZhU2ZQMwE1VjNdMgdjVTEGN1RjAmdQMllhBmVdaFVvBjFWalA%2BXX4ALVMsWjZVPwVjUD9dYFFZWiVUMFolAHEGPlM4UGgBIlZtXSIHJVV8BiVUJgIiUCVZbwY2XWVVYwZlVmVQN11pADdTN1pqVXwFJlA1XWFRYlozVHdabAAgBmRTblA%2FATlWNF1jBzZVNgY3VGACMFAxWWUGYl01VW4GZlY2UDVdbwBnUzpaa1VhBWZQY109UTdaZVQ3WmIAYwZ1Uyo%3D; path=/
+weeCookie=%7B%22loginFlag%22%3Atrue%2C%22uid%22%3A%22131532238%22%2C%22username%22%3A%22hjy105%22%2C%22nickname%22%3A%22%5Cu5f20%5Cu4e09%22%2C%22email%22%3Anull%2C%22usertype%22%3A%220%22%2C%22urb%22%3A%221977-07-07%22%2C%22mac%22%3A%222c288dba71cbb013ee0ab835db9bd229%22%7D; path=/
+
+
+
+	
+
+

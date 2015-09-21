@@ -39,7 +39,7 @@ public class RegisterTest {
 	}
 
 	@Test
-	public void testVerifyCode() {
+	public void testconvertUnicode(){
 		String str;
 		Date date;
 		String nickname,codename,encode,decode;
@@ -64,39 +64,76 @@ public class RegisterTest {
 		// 12}
 */
 		
-/*
-			nickname = "万骨哭城";
-			codename = "%E4%B8%87%E9%AA%A8%E5%93%AD%E5%9F%8E";
+/**/
 			
-			decode = java.net.URLDecoder.decode(codename,"UTF-8");
-			System.out.println("decode:" + decode);
-			assertEquals(true, decode.equals(nickname));
-			encode = java.net.URLEncoder.encode(nickname,"UTF-8");
-			System.out.println("encode:" + encode);
-			assertEquals(true, encode.equals(codename));
+			try {
+				nickname = "万骨哭城";
+				codename = "%E4%B8%87%E9%AA%A8%E5%93%AD%E5%9F%8E";
+				decode = java.net.URLDecoder.decode(codename,"UTF-8");
+//				System.out.println("utf8:" + decode);
+				assertEquals(true, decode.equals(nickname));
+				encode = java.net.URLEncoder.encode(nickname,"UTF-8");
+//				System.out.println("utf8:" + encode);
+				assertEquals(true, encode.equals(codename));
+				encode = java.net.URLEncoder.encode(nickname,"unicode");
+//				System.out.println("unicode:" + encode);
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
-			nickname = "登录次数";
-			codename = "\u767b\u5f55\u6b21\u6570";
+/**/
 			
-			decode = java.net.URLDecoder.decode(codename,"UTF-8");
-			System.out.println("decode:" + decode);
-			assertEquals(true, decode.equals(nickname));
-*/
-			nickname = "王虎0mvj";
-			codename = "\\u738b\\u864e0mvj";
+			try {
+				nickname = "登录次数";
+				codename = "\u767b\u5f55\u6b21\u6570";
+				decode = java.net.URLDecoder.decode(codename,"UTF8");
+//				System.out.println("UTF8:" + decode);
+				decode = java.net.URLDecoder.decode(codename,"unicode");
+//				System.out.println("unicode:" + decode);
+				decode = new String(codename.getBytes("UTF-8"),  "utf-8");
+//				System.out.println("unicode:" + decode);
+				assertEquals(true, decode.equals(nickname));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+/**/
 			
 			//codename = "\""+codename+"\"";
-			decode = register.convertUnicode(codename);
-			System.out.println("decode:" + decode);
-			assertEquals(true, decode.equals(nickname));
-//			decode = new JSONTokener(codename).nextValue().toString();
+			try {
+				nickname = "王虎0mvj";
+				codename = "\u738b\u864e0mvj";
+				decode = java.net.URLDecoder.decode(codename,"UTF8");
+//				System.out.println("decode:" + decode);
+				assertEquals(true, decode.equals(nickname));
+				decode = new String(codename.getBytes("UTF-8"),  "utf-8");
+//				System.out.println("unicode:" + decode);
+				assertEquals(true, decode.equals(nickname));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//decode = register.convertUnicode(codename);
+			//decode = new JSONTokener(codename).nextValue().toString();
 		
 		
+	}
+	
+	@Test
+	public void testVerifyCode() {
+		register.VerifyCode();
+		assert(register.VerifyCode().length()>0);
 	}
 
 	@Test
 	public void testNewUser() {
-		fail("Not yet implemented");
+		assertEquals(true, register.NewUser("hjy105", "bbbb1111"));
+	}
+
+	@Test
+	public void testSetCWSSESSID() {
+		assert(register.SetCWSSESSID().length()>0);
 	}
 
 }

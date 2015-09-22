@@ -2,6 +2,10 @@ package fuzhu.gwee.passport;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
@@ -35,7 +39,8 @@ public class RegisterTest {
 
 	@Test
 	public void testCheckUserName() {
-		fail("Not yet implemented");
+		// 通行证 hjy111 已被使用, 请重新指定
+		assertEquals(false, register.CheckUserName("hjy111"));
 	}
 
 	@Test
@@ -121,16 +126,42 @@ public class RegisterTest {
 	}
 	
 	@Test
-	public void testVerifyCode() {
-		register.VerifyCode();
-		assert(register.VerifyCode().length()>0);
+	public void testCode() {
+		String code = register.Code();
+		assert(code.length()>0);
 	}
 
 	@Test
 	public void testNewUser() {
-		assertEquals(true, register.NewUser("hjy105", "bbbb1111"));
+		assertEquals(true, register.NewUser("hjy145", "bbbb1111"));
 	}
 
+	@Test
+	public final void testNewUsers() {
+		BufferedReader in;
+		try {
+			in = new BufferedReader(new FileReader("注册信息表.csv"));
+			String s = new String();
+			while ((s = in.readLine()) != null)
+				if (register.CheckUserName(s)){
+					if (register.NewUser(s, "bbbb1111")){
+						System.out.println(s+",ok");
+					} else {
+						System.out.println(s+",false");
+					}
+				} else {
+					System.out.println(s+",false");
+				}
+			in.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Test
 	public void testSetCWSSESSID() {
 		assert(register.SetCWSSESSID().length()>0);

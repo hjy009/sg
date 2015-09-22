@@ -259,6 +259,8 @@ username=hjy105
 源代码
 username=hjy105&password=hhhh1111&passwordcfm=hhhh1111&user_truename=%E5%BC%A0%E4%B8%89&user_idcard=110101197707072913
 &code=4157&agree=yes&user_type=0&force=
+username=hjy107&password=bbbb1111&passwordcfm=bbbb1111&user_truename=%E5%BC%A0%E4%B8%89&user_idcard=110101197707072913
+&code=7685&agree=yes&user_type=0&force=
 响应
 cookie
 db_idx_session=0

@@ -11,8 +11,10 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -37,7 +39,7 @@ public class Register {
 	protected CloseableHttpClient httpclient;
 	protected String serverAddress;
 	protected String CWSSESSID;
-    //BasicCookieStore cookieStore;
+    BasicCookieStore cookieStore;
 	
 	protected String GetTime(){
 		long mtime;
@@ -47,15 +49,26 @@ public class Register {
 		stime = String.valueOf(mtime);
 		return stime;
 	};
-
-	protected String GetSetCookie(String name){
-		/*
-		System.out.println("Initial set of cookies:");
+	protected void printCookies(){
+		System.out.println(CWSSESSID);
         List<Cookie> cookies = cookieStore.getCookies();
         if (cookies.isEmpty()) {
             System.out.println("None cookie");
         } else {
-            for ( i = 0; i < cookies.size(); i++) {
+            for (int i = 0; i < cookies.size(); i++) {
+            	System.out.println("- " + cookies.get(i).toString());
+            }       
+         }
+	};
+	protected String GetSetCookie(String name){
+		String id="";
+		
+//		System.out.println("Initial set of cookies:");
+        List<Cookie> cookies = cookieStore.getCookies();
+        if (cookies.isEmpty()) {
+            System.out.println("None cookie");
+        } else {
+            for (int i = 0; i < cookies.size(); i++) {
             	if (cookies.get(i).getName().equals("CWSSESSID")){
             		id=cookies.get(i).getValue();
             	}
@@ -64,9 +77,9 @@ public class Register {
             //id = cookies.get(0).getValue();
             //System.out.println(id);
          }
-         */
         
-		return "";
+        
+		return id;
 	}
 	
 	protected String GetSetCookie(CloseableHttpResponse response , String name){
@@ -77,14 +90,76 @@ public class Register {
         String value=strs[2];
 		return value;
 	}
+	
+	protected boolean SaveImage(CloseableHttpResponse response, String filename){
+		boolean r=false;
+		
+		HttpEntity entity1 = response.getEntity();
+	    InputStream in;
+		try {
+			in = entity1.getContent();
+			FileOutputStream output = new FileOutputStream(new File(filename));
+			BufferedImage img = ImageIO.read(in);
+			ImageIO.write(img, "BMP", output);
+			r=true;
+		} catch (UnsupportedOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return r;
+	}
+	
+	protected String recognitionImg(String filename){
+		String id="";
+		ImgIdent imgident;
+
+		try {
+			imgident = new ImgIdent();
+			id = imgident.getImageNumber(filename);
+//			System.out.println(id);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
+	
 	public String SetCWSSESSID(){
 		String url;
 		String str;
 
 		url = serverAddress+"app/" + "register.php?step=2";
 		HttpGet httpGet = new HttpGet(url);
-		CloseableHttpResponse response1;
+/*
+		httpGet.setHeader("Cookie", "__utma=1831918.1379181802.1441183404.1441959515.1442553530.6;"
+				+ " __utmz=1831918.1442553530.6.6.utmcsr=wz24.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php; "
+				+ "registerTime=Am5UYAAxBzQAPlQ1B2EANQY0ADQ%3D;"
+				+ " CWSSESSID=def886b778d0bd82bf51c6391677bb00");//设置cookie
+*/
+		/*
+		POST /app/register.php?ac=add HTTP/1.1
 
+				Host: passport.9wee.com
+
+				User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0
+*/
+	//			Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+/*
+				Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+
+				Accept-Encoding: gzip, deflate
+
+				Referer: http://passport.9wee.com/app/register.php?step=2
+
+				Cookie: db_idx_session=0; CWSSESSID=6377b597ddc09229ddc3b7f451155521; verifyCode=5229
+
+				Connection: keep-alive
+*/
+		CloseableHttpResponse response1;
 		try {
 			response1 = httpclient.execute(httpGet);
 
@@ -105,13 +180,13 @@ public class Register {
 	}
 	
 	public Register() {
-       /*
+       
         cookieStore = new BasicCookieStore();
 		httpclient = HttpClients.custom()
                 .setDefaultCookieStore(cookieStore)
                 .build();
-        */
-		httpclient = HttpClients.createDefault();
+        
+		//httpclient = HttpClients.createDefault();
 		serverAddress = "https://passport.9wee.com/";
 		SetCWSSESSID();
 	}
@@ -182,16 +257,19 @@ public class Register {
         
         return outBuffer.toString();
 	}
+
         public boolean Check(String aact, String aname, String avalue) {
 		String str;
 		String url;
 		boolean r = false;
 
-		// https://passport.9wee.com/check?act=user&username=hjy111
+		// http://passport.9wee.com/app/check.php?act=user&username=hjy111
 		// 通行证 hjy111 已被使用, 请重新指定
 		// OK
-		// https://passport.9wee.com/check?act=nickname&nickname=hjy112
-		url = serverAddress +"app/"+ "check?act=" + aact + "&" + aname + "=" + avalue;
+		// http://passport.9wee.com/app/check.php?act=nickname&nickname=hjy112
+		// http://passport.9wee.com/app/check.php?act=code&code=8879
+
+		url = serverAddress +"app/"+ "check.php?act=" + aact + "&" + aname + "=" + avalue;
 /*
 		responseBody = httpsession.doget(url);
 		if (responseBody.equals("OK")) {
@@ -207,6 +285,7 @@ public class Register {
 		    HttpEntity entity1 = response1.getEntity();
 			if (response1.getStatusLine().getReasonPhrase().equals("OK")) {
 				str = EntityUtils.toString(entity1);
+//				System.out.println(str);
 				r = str.equals("OK");
 			} 
 		    // do something useful with the response body
@@ -229,39 +308,26 @@ public class Register {
 		return r;
 	}
 
-	public boolean CheckUserName(String username) {
-		boolean r;
-
-		r = Check("user", "username", username);
-		if (r) {
-			r = Check("nickname", "nickname", username);
-		}
-		return r;
-	}
-
-	public String VerifyCode() {
+    public String VerifyCode() {
+    	String code="";
+    	
 		String url;
-		String r = "";
-		String filename = "code.bmp";
-		ImgIdent imgident;
+		//String filename = "code.bmp";
 		//http://passport.9wee.com/common/verify_code.php?1442737436071
+		
 		url = serverAddress + "common/"+"verify_code.php?" + GetTime();
 
 		HttpGet httpGet = new HttpGet(url);
 		CloseableHttpResponse response1 = null;
 		try {
 			response1 = httpclient.execute(httpGet);
-		    HttpEntity entity1 = response1.getEntity();
-		    InputStream in = entity1.getContent();
-			FileOutputStream output = new FileOutputStream(new File(filename));
-			BufferedImage img = ImageIO.read(in);
-			ImageIO.write(img, "BMP", output);
-			imgident = new ImgIdent();
-			r = imgident.getImageNumber(filename);
+/*
+			SaveImage(response1, filename);
+			r = recognitionImg(filename);
 			System.out.println(r);
-			r=GetSetCookie(response1,"");
-			System.out.println(r);
-		    EntityUtils.consume(entity1);
+			*/
+			code=GetSetCookie(response1,"");
+			//System.out.println(code);
 		    response1.close();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -271,6 +337,29 @@ public class Register {
 			e.printStackTrace();
 		}
 
+  	return code;
+    }
+	public boolean CheckUserName(String username) {
+		boolean r;
+
+		r = Check("user", "username", username);
+		/*
+		if (r) {
+			r = Check("nickname", "nickname", username);
+		}
+		*/
+		return r;
+	}
+
+	public String Code() {
+		String r = "";
+		for (int i=0;i<3;i++){
+			r = VerifyCode();
+			if (Check("code","code",r)){
+				break;
+			}
+		}
+		 
 		return r;
 	}
 
@@ -278,15 +367,8 @@ public class Register {
 		String url;
 		String code, str;
 		boolean r = false;
-		int i;
 
-		url = serverAddress+"app/" + "register.php?step=2";
-		HttpGet httpGet = new HttpGet(url);
-		CloseableHttpResponse response1;
 		try {
-			response1 = httpclient.execute(httpGet);
-			//	    HttpEntity entity1 = response1.getEntity();
-
 			/*
 			agree=yes
 			code=4157
@@ -301,50 +383,59 @@ public class Register {
 			r = CheckUserName(username);
 			if (r) {
 				List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-				for (i = 0; i < 3; i++) {
-					code = VerifyCode();
+				/*
+					try {
+						Thread.currentThread().sleep(5000);//毫秒 
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					*/
+					code = Code();
 					
 					nvps.clear();
-					nvps.add(new BasicNameValuePair("agree", "yes"));
-					nvps.add(new BasicNameValuePair("code", code));
-					nvps.add(new BasicNameValuePair("force", ""));
+					nvps.add(new BasicNameValuePair("username", username));
 					nvps.add(new BasicNameValuePair("password", password));
 					nvps.add(new BasicNameValuePair("passwordcfm", password));
+					nvps.add(new BasicNameValuePair("user_truename", "张三"));
 					nvps.add(new BasicNameValuePair("user_idcard","110101197707072913"));
-					nvps.add(new BasicNameValuePair("nickname", username));
-					nvps.add(new BasicNameValuePair("username", username));
-					// cookie
-					// __utma=247480783.1622237590364704500.1241495630.1246931873.1246935667.22;
-					// __utmz=247480783.1246509771
-					// .18.9.utmcsr=h15.sg.9wee.com|utmccn=(referral)|utmcmd=referral|utmcct=/main.php;
-					// registerTime=VjpTYVVkAjVVa1M2AGNeZwQ3Djs
-					// %3D; verifyCode=df6b9b8b6b0d60a09a53a06814cf5831;
-					// db_idx_session=0;
-					// __utmc=247480783; __utmb=247480783
-					// .2.10.1246935667;
-					// CWSSESSID=8bbfa02ebb85f772fc700b8afa4e126b
-
-					nvps.add(new BasicNameValuePair("param1", "value1"));
-					nvps.add(new BasicNameValuePair("param2", "value2"));
+					nvps.add(new BasicNameValuePair("code", code));
+					nvps.add(new BasicNameValuePair("agree", "yes"));
+					nvps.add(new BasicNameValuePair("user_type", "0"));
+					nvps.add(new BasicNameValuePair("force", ""));
 					UrlEncodedFormEntity entity = new UrlEncodedFormEntity(nvps, "UTF-8");
-
+					//*
+				    str = EntityUtils.toString(entity);
+//				    System.out.println(str);
+					//*/
+//					printCookies();
 					url = serverAddress+"app/" + "register.php?ac=add";
 					HttpPost httpPost = new HttpPost(url);
 					httpPost.setEntity(entity);
-					CloseableHttpResponse response2;
-					response2 = httpclient.execute(httpPost);
-				    HttpEntity entity1 = response2.getEntity();
+
+					/*
+					httpPost.addHeader("POST /app/register.php?ac=add HTTP/1.1","");
+					httpPost.setHeader("Host","passport.9wee.com");
+					httpPost.setHeader("User-Agent","Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0");
+					*/
+					//httpPost.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+					/*
+					httpPost.setHeader("Accept-Language","zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
+					httpPost.setHeader("Accept-Encoding","gzip, deflate");
+					httpPost.addHeader("Cookie","db_idx_session=0; CWSSESSID=6377b597ddc09229ddc3b7f451155521; verifyCode=5229");
+					httpPost.setHeader("Cookie","db_idx_session=0; "+"CWSSESSID="+CWSSESSID+"; verifyCode="+code);
+					httpPost.setHeader("Connection","keep-alive");
+					*/
+					httpPost.setHeader("Referer","http://passport.9wee.com/app/register.php?step=2");
+					CloseableHttpResponse response1;
+					response1 = httpclient.execute(httpPost);
+				    HttpEntity entity1 = response1.getEntity();
 				    str = EntityUtils.toString(entity1);
 				    System.out.println(str);
 				    //r=str.indexOf("恭喜")>=0;
-					r = !Check("user", "username", username);
-					if (r) {
-						break;
-					}
 				    EntityUtils.consume(entity1);
 				    response1.close();
-				    response2.close();
-				}
+					r = !Check("user", "username", username);
 			}
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block

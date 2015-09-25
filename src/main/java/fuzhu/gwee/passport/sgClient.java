@@ -14,6 +14,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -66,7 +67,7 @@ public class sgClient {
             System.out.println("None cookie");
         } else {
             for (int i = 0; i < cookies.size(); i++) {
-            	if (cookies.get(i).getName().equals("CWSSESSID")){
+            	if (cookies.get(i).getName().equals(name)){
             		id=cookies.get(i).getValue();
             	}
             	//System.out.println("- " + cookies.get(i).toString());
@@ -74,8 +75,6 @@ public class sgClient {
             //id = cookies.get(0).getValue();
             //System.out.println(id);
          }
-        
-        
 		return id;
 	}
 	
@@ -84,8 +83,13 @@ public class sgClient {
 		String str = h1.toString();
         //System.out.println(id);
         String[] strs = str.split(":|=|;");
-        String value=strs[2];
-		return value;
+        for(int i=0;i<strs.length;i++){
+        	if(strs[i].trim().equals(name)){
+        		return strs[i+1];
+        	}
+        }
+        //String value=strs[2];
+		return "";
 	}
 	
 	protected boolean SaveImage(CloseableHttpResponse response, String filename){
@@ -123,6 +127,97 @@ public class sgClient {
 		}
 		
 		return id;
+	}
+	
+	public void initHeader(HttpRequestBase request){
+		/*
+		request.setHeader("POST /app/register.php?ac=add HTTP/1.1","");
+		request.setHeader("Host","passport.9wee.com");
+		*/
+		request.setHeader("User-Agent","Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0");
+		request.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		
+		request.setHeader("Accept-Language","zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
+		request.setHeader("Accept-Encoding","gzip, deflate");
+		//request.setHeader("Cookie","db_idx_session=0; CWSSESSID=6377b597ddc09229ddc3b7f451155521; verifyCode=5229");
+		//request.setHeader("Cookie","db_idx_session=0; "+"CWSSESSID="+CWSSESSID+"; verifyCode="+code);
+		request.setHeader("Connection","keep-alive");
+		
+	}
+	
+	public void addRef(HttpRequestBase request,String value){
+		request.setHeader("Referer",value);
+	}
+	
+	public String getResponseStr(String url){
+		String r="";
+		
+		HttpGet httpGet = new HttpGet(url);
+		CloseableHttpResponse response1 = null;
+		try {
+			response1 = httpclient.execute(httpGet);
+		    HttpEntity entity1 = response1.getEntity();
+			if (response1.getStatusLine().getReasonPhrase().equals("OK")) {
+				r = EntityUtils.toString(entity1);
+//				System.out.println(r);
+			    // do something useful with the response body
+			    // and ensure it is fully consumed
+//			    InputStream in = entity1.getContent();
+//			    System.out.println(EntityUtils.toString(entity1,"GB2312"));
+			    //System.out.println(in.toString());
+			} 
+		    // do something useful with the response body
+		    // and ensure it is fully consumed
+//		    InputStream in = entity1.getContent();
+//		    System.out.println(EntityUtils.toString(entity1,"GB2312"));
+		    //System.out.println(in.toString());
+
+		    //System.out.println(EntityUtils.toString(entity1));
+		    EntityUtils.consume(entity1);
+		    response1.close();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return r;
+	}
+	public String getResponseCookie(String url,String name){
+		String r="";
+		
+		HttpGet httpGet = new HttpGet(url);
+		CloseableHttpResponse response1 = null;
+		try {
+			response1 = httpclient.execute(httpGet);
+		    HttpEntity entity1 = response1.getEntity();
+			if (response1.getStatusLine().getReasonPhrase().equals("OK")) {
+				r=GetSetCookie(response1,name);
+//				System.out.println(r);
+			    // do something useful with the response body
+			    // and ensure it is fully consumed
+//			    InputStream in = entity1.getContent();
+//			    System.out.println(EntityUtils.toString(entity1,"GB2312"));
+			    //System.out.println(in.toString());
+			} 
+		    // do something useful with the response body
+		    // and ensure it is fully consumed
+//		    InputStream in = entity1.getContent();
+//		    System.out.println(EntityUtils.toString(entity1,"GB2312"));
+		    //System.out.println(in.toString());
+
+		    //System.out.println(EntityUtils.toString(entity1));
+		    EntityUtils.consume(entity1);
+		    response1.close();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return r;
 	}
 	
 	public String SetCWSSESSID(){

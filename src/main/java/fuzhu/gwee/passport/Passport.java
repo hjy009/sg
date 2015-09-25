@@ -20,17 +20,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-public class Passport {
-
-	protected CloseableHttpClient httpclient;
+public class Passport extends sgClient{
 
 	public String username;
 	public String password;
-
 	public boolean isLogin;
 
-	public Passport() {
-		httpclient = HttpClients.createDefault();
+	public Passport()  {
 		username = "";
 		password = "";
 		isLogin = false;

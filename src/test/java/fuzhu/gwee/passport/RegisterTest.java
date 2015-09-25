@@ -51,7 +51,7 @@ public class RegisterTest {
 
 	@Test
 	public void testNewUser() {
-		assertEquals(true, register.NewUser("hjy145", "bbbb1111"));
+		assertEquals(true, register.NewUser("hjy148", "bbbb1111"));
 	}
 
 	@Test

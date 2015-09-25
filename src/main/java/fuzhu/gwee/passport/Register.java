@@ -61,72 +61,27 @@ public class Register extends sgClient{
 	}
 
 	public boolean NewUser(String username, String password)  {
-		String url;
+		String url,ref;
 		String code, str;
 		boolean r = false;
 
-		try {
-			/*
-			agree=yes
-			code=4157
-			force=
-			password=	hhhh1111
-			passwordcfm=	hhhh1111
-			user_idcard=110101197707072913
-			user_truename=张三
-			user_type=	0
-			username=hjy105
-			*/
-			r = CheckUserName(username);
-			if (r) {
-				List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-				/*
-					try {
-						Thread.currentThread().sleep(5000);//毫秒 
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					*/
-					code = Code();
-					
-					nvps.clear();
-					nvps.add(new BasicNameValuePair("username", username));
-					nvps.add(new BasicNameValuePair("password", password));
-					nvps.add(new BasicNameValuePair("passwordcfm", password));
-					nvps.add(new BasicNameValuePair("user_truename", "张三"));
-					nvps.add(new BasicNameValuePair("user_idcard","110101197707072913"));
-					nvps.add(new BasicNameValuePair("code", code));
-					nvps.add(new BasicNameValuePair("agree", "yes"));
-					nvps.add(new BasicNameValuePair("user_type", "0"));
-					nvps.add(new BasicNameValuePair("force", ""));
-					UrlEncodedFormEntity entity = new UrlEncodedFormEntity(nvps, "UTF-8");
-					//*
-				    str = EntityUtils.toString(entity);
-//				    System.out.println(str);
-					//*/
-//					printCookies();
-					url = serverAddress+"app/" + "register.php?ac=add";
-					HttpPost httpPost = new HttpPost(url);
-					httpPost.setEntity(entity);
-
-					addRef(httpPost,"http://passport.9wee.com/app/register.php?step=2");
-					CloseableHttpResponse response1;
-					response1 = httpclient.execute(httpPost);
-				    HttpEntity entity1 = response1.getEntity();
-				    str = EntityUtils.toString(entity1);
-				    //System.out.println(str);
-				    //r=str.indexOf("恭喜")>=0;
-				    EntityUtils.consume(entity1);
-				    response1.close();
-					r = !Check("user", "username", username);
-			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		r = CheckUserName(username);
+		if (r) {
+			code = Code();
+			url = serverAddress+"app/" + "register.php?ac=add";
+			ref = "http://passport.9wee.com/app/register.php?step=2";
+			str = postResponseStr(url,ref,
+					"username", username,
+					"password", password,
+					"passwordcfm", password,
+					"user_truename", "张三",
+					"user_idcard","110101197707072913",
+					"code", code,
+					"agree", "yes",
+					"user_type", "0",
+					"force", ""
+					);
+			r = !Check("user", "username", username);
 		}
 		return r;
 	}

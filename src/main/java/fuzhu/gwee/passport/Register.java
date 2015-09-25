@@ -30,7 +30,7 @@ public class Register extends sgClient{
 		// http://passport.9wee.com/app/check.php?act=code&code=8879
 
 		url = serverAddress +"app/"+ "check.php?act=" + aact + "&" + aname + "=" + avalue;
-		return getResponseStr(url).equals("OK");
+		return getResponseStr(url,"http://www.9wee.com/").equals("OK");
 	}
 
     public String VerifyCode() {
@@ -39,7 +39,7 @@ public class Register extends sgClient{
 		//http://passport.9wee.com/common/verify_code.php?1442737436071
 		
 		url = serverAddress + "common/"+"verify_code.php?" + GetTime();
-		return getResponseCookie(url, "verifyCode");
+		return getResponseCookie(url,"http://www.9wee.com/", "verifyCode");
     }
 	public boolean CheckUserName(String username) {
 		return Check("user", "username", username);

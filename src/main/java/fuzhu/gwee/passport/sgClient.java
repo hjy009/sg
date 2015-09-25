@@ -31,6 +31,8 @@ public class sgClient {
 	protected CloseableHttpClient httpclient;
 	protected String serverAddress;
 	protected String CWSSESSID;
+	protected String passportSession;
+	protected String weeCookie;
     BasicCookieStore cookieStore;
 	
 	public sgClient() {
@@ -63,7 +65,33 @@ public class sgClient {
             }       
          }
 	};
-	
+
+	protected void refreshCookies() {
+		CWSSESSID = "";
+		passportSession = "";
+		weeCookie = "";
+
+		List<Cookie> cookies = cookieStore.getCookies();
+		for (int i = 0; i < cookies.size(); i++) {
+			String name = cookies.get(i).getName();
+			if (name.equals("CWSSESSID")) {
+				CWSSESSID = cookies.get(i).getValue();
+			}
+			if (name.equals("passportSession")) {
+				passportSession = cookies.get(i).getValue();
+			}
+			if (name.equals("weeCookie")) {
+				weeCookie = cookies.get(i).getValue();
+			}
+		}
+	}
+
+	protected void printHeaders(CloseableHttpResponse response){
+		Header[] hs = response.getAllHeaders();
+		for(Header h1:hs){
+			System.out.println(h1.toString());
+		}
+	}
 	protected UrlEncodedFormEntity GetFormEntity(String... args){
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		String name="";
@@ -105,15 +133,17 @@ public class sgClient {
 	}
 	
 	protected String GetSetCookie(CloseableHttpResponse response , String name){
-		Header h1 = response.getFirstHeader("Set-Cookie");
-		String str = h1.toString();
-        //System.out.println(id);
-        String[] strs = str.split(":|=|;");
-        for(int i=0;i<strs.length;i++){
-        	if(strs[i].trim().equals(name)){
-        		return strs[i+1];
-        	}
-        }
+		Header[] hs = response.getHeaders("Set-Cookie");
+		for(Header h1:hs){
+			String str = h1.toString();
+	        //System.out.println(id);
+	        String[] strs = str.split(":|=|;");
+	        for(int i=0;i<strs.length;i++){
+	        	if(strs[i].trim().equals(name)){
+	        		return strs[i+1];
+	        	}
+	        }
+		}
         //String value=strs[2];
 		return "";
 	}
@@ -162,13 +192,12 @@ public class sgClient {
 		*/
 		request.setHeader("User-Agent","Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0");
 		request.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		
 		request.setHeader("Accept-Language","zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
 		request.setHeader("Accept-Encoding","gzip, deflate");
 		//request.setHeader("Cookie","db_idx_session=0; CWSSESSID=6377b597ddc09229ddc3b7f451155521; verifyCode=5229");
 		//request.setHeader("Cookie","db_idx_session=0; "+"CWSSESSID="+CWSSESSID+"; verifyCode="+code);
+		request.setHeader("Host","passport.9wee.com");
 		request.setHeader("Connection","keep-alive");
-		
 	}
 	
 	public void addRef(HttpRequestBase request,String value){
@@ -185,6 +214,7 @@ public class sgClient {
 		*/
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(entity);
+		//initHeader(httpPost);
 		addRef(httpPost,ref);
 		CloseableHttpResponse response1;
 		try {
@@ -193,6 +223,7 @@ public class sgClient {
 		    str = EntityUtils.toString(entity1);
 		    //System.out.println(str);
 		    //r=str.indexOf("恭喜")>=0;
+		    //printCookies();
 		    EntityUtils.consume(entity1);
 		    response1.close();
 		} catch (ClientProtocolException e) {
@@ -204,11 +235,35 @@ public class sgClient {
 		}
 		return str;
 	}
+
+	public String postResponseCookie(String url, String ref, String... args){
+		UrlEncodedFormEntity entity = GetFormEntity(args);
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setEntity(entity);
+		//initHeader(httpPost);
+		addRef(httpPost,ref);
+		CloseableHttpResponse response1;
+		try {
+			response1 = httpclient.execute(httpPost);
+			//printCookies();
+			passportSession = GetSetCookie(response1, "passportSession");
+			weeCookie = GetSetCookie(response1, "weeCookie");
+		    response1.close();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return passportSession;
+	}
 	
-	public String getResponseStr(String url){
+	public String getResponseStr(String url,String ref){
 		String r="";
 		
 		HttpGet httpGet = new HttpGet(url);
+		addRef(httpGet,ref);
 		CloseableHttpResponse response1 = null;
 		try {
 			response1 = httpclient.execute(httpGet);
@@ -240,30 +295,18 @@ public class sgClient {
 		}
 		return r;
 	}
-	public String getResponseCookie(String url,String name){
+	public String getResponseCookie(String url,String ref,String name){
 		String r="";
 		
 		HttpGet httpGet = new HttpGet(url);
+		addRef(httpGet,ref);
 		CloseableHttpResponse response1 = null;
 		try {
 			response1 = httpclient.execute(httpGet);
 		    HttpEntity entity1 = response1.getEntity();
 			if (response1.getStatusLine().getReasonPhrase().equals("OK")) {
 				r=GetSetCookie(response1,name);
-//				System.out.println(r);
-			    // do something useful with the response body
-			    // and ensure it is fully consumed
-//			    InputStream in = entity1.getContent();
-//			    System.out.println(EntityUtils.toString(entity1,"GB2312"));
-			    //System.out.println(in.toString());
 			} 
-		    // do something useful with the response body
-		    // and ensure it is fully consumed
-//		    InputStream in = entity1.getContent();
-//		    System.out.println(EntityUtils.toString(entity1,"GB2312"));
-		    //System.out.println(in.toString());
-
-		    //System.out.println(EntityUtils.toString(entity1));
 		    EntityUtils.consume(entity1);
 		    response1.close();
 		} catch (ClientProtocolException e) {

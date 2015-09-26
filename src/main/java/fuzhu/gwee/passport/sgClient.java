@@ -26,6 +26,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class sgClient {
 	protected CloseableHttpClient httpclient;
@@ -33,6 +35,8 @@ public class sgClient {
 	protected String CWSSESSID;
 	protected String passportSession;
 	protected String weeCookie;
+	protected JSONObject weeObj;
+	
     BasicCookieStore cookieStore;
 	
 	public sgClient() {
@@ -82,6 +86,19 @@ public class sgClient {
 			}
 			if (name.equals("weeCookie")) {
 				weeCookie = cookies.get(i).getValue();
+				String decode;
+				try {
+					decode = java.net.URLDecoder.decode(weeCookie,"UTF8");
+//					System.out.println("decode:" + decode);
+					decode = convertUnicode(decode);
+					weeObj = new JSONObject(decode);
+//			        decode = weeObj.getString("nickname");  
+//					System.out.println("json:" + decode);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 		}
 	}
@@ -236,7 +253,9 @@ public class sgClient {
 		return str;
 	}
 
-	public String postResponseCookie(String url, String ref, String... args){
+	public String postResponseCookie(String url, String ref, String cookie, String... args){
+		String str="";
+		
 		UrlEncodedFormEntity entity = GetFormEntity(args);
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(entity);
@@ -246,8 +265,7 @@ public class sgClient {
 		try {
 			response1 = httpclient.execute(httpPost);
 			//printCookies();
-			passportSession = GetSetCookie(response1, "passportSession");
-			weeCookie = GetSetCookie(response1, "weeCookie");
+			str = GetSetCookie(response1, cookie);
 		    response1.close();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -256,7 +274,7 @@ public class sgClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return passportSession;
+		return str;
 	}
 	
 	public String getResponseStr(String url,String ref){

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,9 +23,20 @@ public class sgClientTest {
 	}
 
 	@Test
+	public void testJSON() {
+		String nickname,codename,decode;
+		
+		nickname="{\"loginFlag\":true,\"uid\":\"131213093\",\"username\":\"hjy140\",\"nickname\":\"张三\",\"usertype\":\"0\",\"email\":\"\",\"urb\":\"1977-07-07\",\"mac\":\"d45fc3e881be83c82db6cfdb49a6c056\"}";
+		codename="%7B%22loginFlag%22%3Atrue%2C%22uid%22%3A%22131213093%22%2C%22username%22%3A%22hjy140%22%2C%22nickname%22%3A%22%5Cu5f20%5Cu4e09%22%2C%22usertype%22%3A%220%22%2C%22email%22%3A%22%22%2C%22urb%22%3A%221977-07-07%22%2C%22mac%22%3A%22d45fc3e881be83c82db6cfdb49a6c056%22%7D";
+//		JSONArray jsonarray = new JSONArray(nickname);
+		JSONObject jsonobj = new JSONObject(nickname);
+        decode = jsonobj.getString("nickname");  
+		System.out.println("json:" + decode);
+//		assertEquals(true, decode.equals(nickname));
+	}
+
+	@Test
 	public void testConvertUnicode() {
-		String str;
-		Date date;
 		String nickname,codename,encode,decode;
 
 		/*		
@@ -75,7 +87,7 @@ public class sgClientTest {
 				decode = java.net.URLDecoder.decode(codename,"unicode");
 //				System.out.println("unicode:" + decode);
 				decode = new String(codename.getBytes("UTF-8"),  "utf-8");
-//				System.out.println("unicode:" + decode);
+//				System.out.println("getBytes:" + decode);
 				assertEquals(true, decode.equals(nickname));
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
@@ -85,20 +97,21 @@ public class sgClientTest {
 			
 			//codename = "\""+codename+"\"";
 			try {
-				nickname = "王虎0mvj";
-				codename = "\u738b\u864e0mvj";
+				nickname="{\"loginFlag\":true,\"uid\":\"131213093\",\"username\":\"hjy140\",\"nickname\":\"张三\",\"usertype\":\"0\",\"email\":\"\",\"urb\":\"1977-07-07\",\"mac\":\"d45fc3e881be83c82db6cfdb49a6c056\"}";
+				codename="%7B%22loginFlag%22%3Atrue%2C%22uid%22%3A%22131213093%22%2C%22username%22%3A%22hjy140%22%2C%22nickname%22%3A%22%5Cu5f20%5Cu4e09%22%2C%22usertype%22%3A%220%22%2C%22email%22%3A%22%22%2C%22urb%22%3A%221977-07-07%22%2C%22mac%22%3A%22d45fc3e881be83c82db6cfdb49a6c056%22%7D";
+				//nickname = "王虎0mvj";
+				//codename = "\u738b\u864e0mvj";
 				decode = java.net.URLDecoder.decode(codename,"UTF8");
-//				System.out.println("decode:" + decode);
+				System.out.println("decode:" + decode);
+				decode = sgClient.convertUnicode(decode);
+//				decode = java.net.URLDecoder.decode(decode1,"UTF8");
+				System.out.println("conver:" + decode);
 				assertEquals(true, decode.equals(nickname));
-				decode = new String(codename.getBytes("UTF-8"),  "utf-8");
-//				System.out.println("unicode:" + decode);
-				assertEquals(true, decode.equals(nickname));
+				
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//decode = sgclient.convertUnicode(codename);
-			//decode = new JSONTokener(codename).nextValue().toString();
 		
 		
 	}

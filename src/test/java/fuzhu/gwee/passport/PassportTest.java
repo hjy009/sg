@@ -71,7 +71,7 @@ public class PassportTest {
 		passport.Login();
 		assertEquals("login",true,passport.isLogin);
 		
-		r = passport.reg(3);
+		r = passport.reg("wz24.sg.9wee.com",1,3,15);
 		assertEquals("reg",true,r);
 		
 		passport.logout();

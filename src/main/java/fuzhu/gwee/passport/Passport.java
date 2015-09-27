@@ -162,7 +162,7 @@ i0DclM1CXpSbgA2UylSCVU2Am9aYAJgCCYIPQgvAGpZMwcyCjMAI1c6BTMFMwg7UGUBNgplUGdaNw1iU
 		return false;
 	}
 	
-	public boolean reg(int c){
+	public boolean reg(String host,int area,int c,int g){
 		String url,ref,str;
 		/*
 		 * 
@@ -183,14 +183,18 @@ i0DclM1CXpSbgA2UylSCVU2Am9aYAJgCCYIPQgvAGpZMwcyCjMAI1c6BTMFMwg7UGUBNgplUGdaNw1iU
 		x:63
 		y:30		
 		
+<title>激活游戏</title>
 		<script language="javascript">
 			alert("玩家昵称已被占用，请换个重新再试!");
 		</script>	
+<title>武林三国 - 王者绿色服24区</title>
+		alert ( h + '“' + str + '”\n已经复制到您的剪贴板中\n您可以使用Ctrl+V快捷键粘贴到需要的地方' )
+
 		*/
 
 		
-		url = "http://wz24.sg.9wee.com/index.php";
-		ref = "http://wz24.sg.9wee.com/index.php?p=NoData";
+		url = "http://"+host+"/index.php";
+		ref = "http://"+host+"/index.php"+"?p=NoData";
 		str = getResponseStr(url, ref);
 		
 		/*
@@ -200,8 +204,13 @@ i0DclM1CXpSbgA2UylSCVU2Am9aYAJgCCYIPQgvAGpZMwcyCjMAI1c6BTMFMwg7UGUBNgplUGdaNw1iU
 		*/
 		url = "http://wz24.sg.9wee.com/reg.php?user_nickname=%E5%BC%A0%E4%B8%89&x=44&y=28&c=3&g=15&send=1&area=1";
 		ref = "http://wz24.sg.9wee.com/reg.php?p=1";
-		str = getResponseStr(url, ref);
+		str = getResponseStr(host,"/reg.php",ref,"user_nickname","张三孙","x","44","y","28","c",Integer.toString(c),"g",Integer.toString(g),"send","1","area",Integer.toString(area));
 		System.out.println(str);
+		
+		int from = str.indexOf("alert");
+		int to = str.indexOf(";", from);
+		String r = str.substring(from, to);
+		System.out.println(r);
 		
 		if(str.indexOf("alert")<0){
 			return true;

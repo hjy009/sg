@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -109,6 +112,28 @@ public class sgClient {
 			System.out.println(h1.toString());
 		}
 	}
+
+	protected URI GetURI(String host, String path, String... args) {
+		String name = "";
+		try {
+			URIBuilder bld = new URIBuilder();
+			bld.setScheme("http").setHost(host).setPath(path);
+			for (int i = 0; i < args.length; i++) {
+				if (i % 2 == 0) {
+					name = args[i];
+				} else {
+					bld.setParameter(name, args[i]);
+				}
+			}
+			URI uri = bld.build();
+			return uri;
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	protected UrlEncodedFormEntity GetFormEntity(String... args){
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		String name="";
@@ -275,6 +300,12 @@ public class sgClient {
 			e.printStackTrace();
 		}
 		return str;
+	}
+
+	public String getResponseStr(String host, String path, String ref, String... args){
+		URI uri = GetURI(host, path, args);
+		
+		return getResponseStr(uri.toString(), ref);
 	}
 	
 	public String getResponseStr(String url,String ref){

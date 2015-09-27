@@ -3,8 +3,17 @@ package fuzhu.gwee.passport;
 import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.utils.URIUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -114,6 +123,33 @@ public class sgClientTest {
 			}
 		
 		
+	}
+
+	@Test
+	public void testURLEncodedUtils() {
+		
+		String url = "http://wz24.sg.9wee.com/reg.php?user_nickname=%E5%BC%A0%E4%B8%89&x=44&y=28&c=3&g=15&send=1&area=1";
+		
+		try {
+			URI uri = new URIBuilder()
+			        .setScheme("http")
+			        .setHost("wz24.sg.9wee.com")
+			        .setPath("/reg.php")
+			        .setParameter("user_nickname", "张三")
+			        .setParameter("x", "44")
+			        .setParameter("y", "28")
+			        .setParameter("c", "3")
+			        .setParameter("g", "15")
+			        .setParameter("send", "1")
+			        .setParameter("area", "1")
+			        .build();
+//			System.out.println(uri.toString());
+//			System.out.println(url);
+			assertEquals("uri",true, url.equals(uri.toString()));
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

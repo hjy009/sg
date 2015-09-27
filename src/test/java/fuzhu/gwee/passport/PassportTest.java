@@ -63,5 +63,20 @@ public class PassportTest {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	public void testReg() throws ClientProtocolException, IOException {
+		boolean r;
+		passport.username = "hjy108";
+		passport.password = "bbbb1111";
+		passport.Login();
+		assertEquals("login",true,passport.isLogin);
+		
+		r = passport.reg(3);
+		assertEquals("reg",true,r);
+		
+		passport.logout();
+		assertEquals("logout",false,passport.isLogin);
+		
+	}
 	
 }

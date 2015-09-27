@@ -163,11 +163,18 @@ i0DclM1CXpSbgA2UylSCVU2Am9aYAJgCCYIPQgvAGpZMwcyCjMAI1c6BTMFMwg7UGUBNgplUGdaNw1iU
 	}
 	
 	public boolean reg(int c){
+		String url,ref,str;
 		/*
-		http://wz25.sg.9wee.com/reg.php?c=1
-		http://wz25.sg.9wee.com/reg.php?c=2
-		http://wz25.sg.9wee.com/reg.php?c=3
-http://wz25.sg.9wee.com/reg.php?user_nickname=%E5%BC%A0%E4%B8%89&x=63&y=30&c=3&g=15&send=1&area=1		Referer		http://wz25.sg.9wee.com/reg.php?c=3
+		 * 
+		http://wz24.sg.9wee.com/index.php
+		Referer	http://wz24.sg.9wee.com/index.php?p=NoData
+		http://wz24.sg.9wee.com/reg.php?c=1
+		http://wz24.sg.9wee.com/reg.php?c=2
+		http://wz24.sg.9wee.com/reg.php?c=3
+		Referer	http://game.9wee.com/?mod=api&ctl=login&server_id=102001286
+		
+		http://wz25.sg.9wee.com/reg.php?user_nickname=%E5%BC%A0%E4%B8%89&x=63&y=30&c=3&g=15&send=1&area=1		
+		Referer		http://wz24.sg.9wee.com/reg.php?p=1
 		area:1 		--东北
 		c:3	吴
 		g:15 	孙武
@@ -177,9 +184,29 @@ http://wz25.sg.9wee.com/reg.php?user_nickname=%E5%BC%A0%E4%B8%89&x=63&y=30&c=3&g
 		y:30		
 		
 		<script language="javascript">
-alert("玩家昵称已被占用，请换个重新再试!");
-</script>	
+			alert("玩家昵称已被占用，请换个重新再试!");
+		</script>	
 		*/
+
+		
+		url = "http://wz24.sg.9wee.com/index.php";
+		ref = "http://wz24.sg.9wee.com/index.php?p=NoData";
+		str = getResponseStr(url, ref);
+		
+		/*
+		url = "http://wz24.sg.9wee.com/reg.php?c=3";
+		ref = "http://game.9wee.com/?mod=api&ctl=login&server_id=102001286";
+		str = getResponseStr(url, ref);
+		*/
+		url = "http://wz24.sg.9wee.com/reg.php?user_nickname=%E5%BC%A0%E4%B8%89&x=44&y=28&c=3&g=15&send=1&area=1";
+		ref = "http://wz24.sg.9wee.com/reg.php?p=1";
+		str = getResponseStr(url, ref);
+		System.out.println(str);
+		
+		if(str.indexOf("alert")<0){
+			return true;
+		}
+		
 		return false;
 	}
 }

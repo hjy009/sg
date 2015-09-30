@@ -15,6 +15,36 @@
   </properties>
 
   <dependencies>
+  
+    <dependency>
+      <groupId>ij</groupId>
+      <artifactId>ij</artifactId>
+      <version>0.1</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/ij.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>joone-engine</groupId>
+      <artifactId>joone</artifactId>
+      <version>0.1</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/joone-engine.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>libnumrecognition</groupId>
+      <artifactId>libnumrecognition</artifactId>
+      <version>0.1</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/libnumrecognition.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>SOM2D</groupId>
+      <artifactId>SOM2D</artifactId>
+      <version>0.3</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/SOM2D.jar</systemPath>
+    </dependency>
+  
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

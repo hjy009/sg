@@ -1,8 +1,11 @@
 package fuzhu.sg;
 
+import java.awt.EventQueue;
+
 import javax.swing.UIManager;
 
 import fuzhu.idMaker.Make;
+import fuzhu.swing.MyFrame;
 
 /**
  * Hello world!
@@ -10,14 +13,20 @@ import fuzhu.idMaker.Make;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
-	    try {
-		      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		    }
-		    catch (Exception e) {
-		      e.printStackTrace();
-		    }
-		    new Make();
-    }
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MyFrame window = new MyFrame();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 }

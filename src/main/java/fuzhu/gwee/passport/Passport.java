@@ -3,6 +3,7 @@ package fuzhu.gwee.passport;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -24,19 +25,25 @@ public class Passport extends sgClient{
 
 	public String username;
 	public String password;
-	public boolean isLogin;
+	public boolean loginFlag;
+	public int uid;
+	public String nickname;
+	public int usertype;
+	public String email;
+	public Date urb;
+	public String mac;
 
 	public Passport()  {
 		username = "";
 		password = "";
-		isLogin = false;
+		loginFlag = false;
 	}
 
 	public Passport(String username, String password) {
 		httpclient = HttpClients.createDefault();
 		this.username = username;
 		this.password = password;
-		isLogin = false;
+		loginFlag = false;
 	}
 	public boolean Login() {
 		String url,ref,str;
@@ -52,12 +59,12 @@ public class Passport extends sgClient{
 		refreshCookies();
 		
 		if(weeObj.getString("username").equals(username)){
-			isLogin = true;
+			loginFlag = true;
 		}else{
-			isLogin = false;
+			loginFlag = false;
 		}
 		
-		return isLogin;
+		return loginFlag;
 
 	}
 
@@ -69,9 +76,9 @@ public class Passport extends sgClient{
 		cookie = getResponseCookie(url, ref, "passportSession");
 		refreshCookies();
 		if(passportSession.length()==0){
-			isLogin = false;
+			loginFlag = false;
 		}
-		return !isLogin;
+		return !loginFlag;
 	}
 	
 	public boolean loginServer(String id){

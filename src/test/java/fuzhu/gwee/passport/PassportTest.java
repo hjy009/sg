@@ -29,9 +29,9 @@ public class PassportTest {
 		passport.username = "hjy140";
 		passport.password = "bbbb1111";
 		passport.Login();
-		assertEquals(true,passport.isLogin);
+		assertEquals(true,passport.loginFlag);
 		passport.logout();
-		assertEquals(false,passport.isLogin);
+		assertEquals(false,passport.loginFlag);
 		
 	}
 	
@@ -69,13 +69,13 @@ public class PassportTest {
 		passport.username = "hjy108";
 		passport.password = "bbbb1111";
 		passport.Login();
-		assertEquals("login",true,passport.isLogin);
+		assertEquals("login",true,passport.loginFlag);
 		
 		r = passport.reg("wz24.sg.9wee.com",1,3,15);
 		assertEquals("reg",true,r);
 		
 		passport.logout();
-		assertEquals("logout",false,passport.isLogin);
+		assertEquals("logout",false,passport.loginFlag);
 		
 	}
 	

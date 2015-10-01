@@ -36,6 +36,18 @@ public class PassportTest {
 	}
 	
 	@Test
+	public void testChangePassword() throws ClientProtocolException, IOException {
+		passport.username = "hjy140";
+		passport.password = "bbbb1111";
+		passport.Login();
+		assertEquals(true,passport.loginFlag);
+		assertEquals(true,passport.ChangePassword("bbbb1111"));
+		passport.logout();
+		assertEquals(false,passport.loginFlag);
+		
+	}
+	
+	@Test
 	public void testLogins() throws ClientProtocolException, IOException {
 		BufferedReader in;
 		String line;

@@ -81,6 +81,45 @@ public class Passport extends sgClient{
 		return !loginFlag;
 	}
 	
+	public boolean ChangePassword(String newpassword){
+		String url,ref,r;
+		/*
+		 * get http://passport.9wee.com/app/check.php?act=pass&passwordold=bbbb1111
+		 * Referer	
+http://passport.9wee.com/app/profile.php
+		 * return 
+		 * "OK"
+		 * CWSSESSID
+		 * 
+		 * post http://passport.9wee.com/app/profile.php
+		 * passwordold=bbbb1111&password=hhhh1111&passwordcfm=hhhh1111&username=zghnzxx
+		 * Referer	
+http://passport.9wee.com/app/profile.php
+		 * return
+		 * <h1 class="success_box_h1">密码修改成功!</h1>
+		 * passportSession
+		 * 
+		 */
+		if(!loginFlag){
+			System.out.println("need login");
+			return false;
+		}
+		url = "http://passport.9wee.com/app/check.php?act=pass&passwordold="+password;
+		ref="http://passport.9wee.com/app/profile.php";
+		r = getResponseStr(url, ref);
+		if(!r.equals("OK")){
+			System.out.println("old password not correct");
+			return false;
+		}
+		url = "http://passport.9wee.com/app/profile.php";
+		r = postResponseStr(url, ref, "passwordold",password,"password",newpassword,"passwordcfm",newpassword,"username","zghnzxx");
+		if(r.indexOf("密码修改成功!")>0){
+			password = newpassword;
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean loginServer(String id){
 		/*
 		//get http://wz25.sg.9wee.com/

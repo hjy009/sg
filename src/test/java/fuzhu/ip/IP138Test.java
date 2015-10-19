@@ -18,7 +18,7 @@ public class IP138Test {
 
 	@Test
 	public void testMyip() throws ClientProtocolException, IOException {
-		assertEquals("61.132.89.154",ip.myip());
+		assertEquals("222.185.235.242",ip.myip());
 	}
 
 	@Test

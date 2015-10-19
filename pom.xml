@@ -52,6 +52,20 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/SOM2D.jar</systemPath>
     </dependency>
+    <dependency>
+      <groupId>libnumrecognition</groupId>
+      <artifactId>libnumrecognition</artifactId>
+      <version>0.1</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/libnumrecognition.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>maxmindgeoip</groupId>
+      <artifactId>maxmindgeoip</artifactId>
+      <version>0.1</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/maxmindgeoip.jar</systemPath>
+    </dependency>
   
     <dependency>
       <groupId>junit</groupId>

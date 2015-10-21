@@ -22,6 +22,7 @@ import java.util.Enumeration;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
@@ -34,6 +35,7 @@ class Proxy{
 	private long delay;
 	private InetSocketAddress address;
 	private String geodata = "res/geo/GeoLite2-City.mmdb";
+	private String geodatacountry = "res/geo/GeoLite2-Country.mmdb";
 	private int timeout = 3000; //ms
 	private String anonChecker = "http://www.stilllistener.com/checkpoint1/test2/";
 	
@@ -90,8 +92,8 @@ class Proxy{
 			socket.bind(localSocketAddr);
 			InetSocketAddress endpointSocketAddr = new InetSocketAddress(remoteInetAddr, port);
 			socket.connect(endpointSocketAddr, timeout);
-			System.out.println("SUCCESS - connection established! Local: " + localInetAddr.getHostAddress()
-					+ " remote: " + remoteInetAddr.getHostAddress() + " port" + port);
+//			System.out.println("SUCCESS - connection established! Local: " + localInetAddr.getHostAddress()
+//					+ " remote: " + remoteInetAddr.getHostAddress() + " port" + port);
 			isReachable = true;
 		} catch (IOException e) {
 			System.out.println("FAILRE - CAN not connect! Local: " + localInetAddr.getHostAddress() + " remote: "
@@ -153,49 +155,31 @@ class Proxy{
 	}
 	
 
-	public String getCountry() throws IOException {
+	public String getCountry() {
 		String r="";
 		// A File object pointing to your GeoIP2 or GeoLite2 database
-		File database = new File(geodata);
+		File database = new File(geodatacountry);
 
 		// This creates the DatabaseReader object, which should be reused across
 		// lookups.
-		DatabaseReader reader = new DatabaseReader.Builder(database).build();
-
-		InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
-
-		// Replace "city" with the appropriate method for your database, e.g.,
-		// "country".
-		CityResponse response;
+		DatabaseReader reader;
+		CountryResponse response;
 		try {
-			response = reader.city(ipAddress);
+			reader = new DatabaseReader.Builder(database).build();
+			InetAddress ipAddress = InetAddress.getByName(ip);
+			// Replace "city" with the appropriate method for your database, e.g.,
+			// "country".
+			response = reader.country(ipAddress);
 			Country country = response.getCountry();
-			System.out.println(country.getIsoCode());            // 'US'
-			System.out.println(country.getName());               // 'United States'
-			System.out.println(country.getNames().get("zh-CN")); // '美国'
-
-			Subdivision subdivision = response.getMostSpecificSubdivision();
-			System.out.println(subdivision.getName());    // 'Minnesota'
-			System.out.println(subdivision.getIsoCode()); // 'MN'
-
-			City city = response.getCity();
-			System.out.println(city.getName()); // 'Minneapolis'
-
-			Postal postal = response.getPostal();
-			System.out.println(postal.getCode()); // '55455'
-
-			Location location = response.getLocation();
-			System.out.println(location.getLatitude());  // 44.9733
-			System.out.println(location.getLongitude()); // -93.2323
-			r = country.toString();
+			r = country.getNames().get("zh-CN");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		} catch (GeoIp2Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
 		return r;
-	
 	}
 	
 	public String getCity() throws IOException {

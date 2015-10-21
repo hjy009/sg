@@ -34,15 +34,8 @@ public class ProxyTest {
 	@Test
 	public void testGetGeo() {
 		String ct;
-		try {
 			ct = proxy.getCountry();
-			assertEquals("", ct);
-			ct = proxy.getCity();
-			assertEquals("", ct);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			assertEquals("中国", ct);
 	}
 
 	@Test

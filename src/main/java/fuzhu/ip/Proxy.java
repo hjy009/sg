@@ -1,5 +1,6 @@
 package fuzhu.ip;
 
+import java.io.File;
 /*******************************************************************************
  * Copyright (c) 2009 Ale46.
  * All rights reserved. This program and the accompanying materials
@@ -18,16 +19,21 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import com.maxmind.geoip.Location;
-import com.maxmind.geoip.LookupService;
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.Postal;
+import com.maxmind.geoip2.record.Subdivision;
 
 class Proxy{
 	private String ip;
 	private int port;
 	private long delay;
 	private InetSocketAddress address;
-	private String geodata = "/res/geo/GeoIP.dat";
-	private String geocity = "/res/geo/GeoLiteCity.dat";
+	private String geodata = "res/geo/GeoLite2-City.mmdb";
 	private int timeout = 3000; //ms
 	private String anonChecker = "http://www.stilllistener.com/checkpoint1/test2/";
 	
@@ -148,38 +154,110 @@ class Proxy{
 	
 
 	public String getCountry() throws IOException {
-		LookupService cl = new LookupService(geodata);
-		String countrycode = cl.getCountry(ip).getCode();
-		
-		cl.close();
-		
-		return countrycode;
+		String r="";
+		// A File object pointing to your GeoIP2 or GeoLite2 database
+		File database = new File(geodata);
+
+		// This creates the DatabaseReader object, which should be reused across
+		// lookups.
+		DatabaseReader reader = new DatabaseReader.Builder(database).build();
+
+		InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+
+		// Replace "city" with the appropriate method for your database, e.g.,
+		// "country".
+		CityResponse response;
+		try {
+			response = reader.city(ipAddress);
+			Country country = response.getCountry();
+			System.out.println(country.getIsoCode());            // 'US'
+			System.out.println(country.getName());               // 'United States'
+			System.out.println(country.getNames().get("zh-CN")); // '美国'
+
+			Subdivision subdivision = response.getMostSpecificSubdivision();
+			System.out.println(subdivision.getName());    // 'Minnesota'
+			System.out.println(subdivision.getIsoCode()); // 'MN'
+
+			City city = response.getCity();
+			System.out.println(city.getName()); // 'Minneapolis'
+
+			Postal postal = response.getPostal();
+			System.out.println(postal.getCode()); // '55455'
+
+			Location location = response.getLocation();
+			System.out.println(location.getLatitude());  // 44.9733
+			System.out.println(location.getLongitude()); // -93.2323
+			r = country.toString();
+		} catch (GeoIp2Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		return r;
+	
 	}
 	
 	public String getCity() throws IOException {
-		LookupService cl = new LookupService(geocity,LookupService.GEOIP_MEMORY_CACHE);
-		Location l1 = cl.getLocation(ip);
-		String city = l1.city;
-		cl.close();
-		return city;
+		String r="";
+		// A File object pointing to your GeoIP2 or GeoLite2 database
+		File database = new File(geodata);
+
+		// This creates the DatabaseReader object, which should be reused across
+		// lookups.
+		DatabaseReader reader = new DatabaseReader.Builder(database).build();
+
+		InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+
+		// Replace "city" with the appropriate method for your database, e.g.,
+		// "country".
+		CityResponse response;
+		try {
+			response = reader.city(ipAddress);
+			Country country = response.getCountry();
+			System.out.println(country.getIsoCode());            // 'US'
+			System.out.println(country.getName());               // 'United States'
+			System.out.println(country.getNames().get("zh-CN")); // '美国'
+
+			Subdivision subdivision = response.getMostSpecificSubdivision();
+			System.out.println(subdivision.getName());    // 'Minnesota'
+			System.out.println(subdivision.getIsoCode()); // 'MN'
+
+			City city = response.getCity();
+			System.out.println(city.getName()); // 'Minneapolis'
+
+			Postal postal = response.getPostal();
+			System.out.println(postal.getCode()); // '55455'
+
+			Location location = response.getLocation();
+			System.out.println(location.getLatitude());  // 44.9733
+			System.out.println(location.getLongitude()); // -93.2323
+			r = city.toString();
+		} catch (GeoIp2Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		return r;
 	
 	}
 	
 	
-	public String getAnonLevel() throws IOException {
+	public int getAnonLevel() throws IOException {
 
 		String stuff = new WebUrl(anonChecker,ip,port).getResponseStr();
-		if (stuff.equals("")) return "Time Out";
+		if (stuff.equals("")) return -1;
 		
 		String[] strs = stuff.split(">|<");
 		for(int i=0;i<strs.length;i++){
 			String str = strs[i];
 			if(str.indexOf("AnonyLevel ")>=0){
-				return strs[i+2];
+				return Integer.parseInt(strs[i+2]);
 			}
 		}
 		
-		return "0";
+		return -1;
 	}
 	
 

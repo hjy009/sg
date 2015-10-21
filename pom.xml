@@ -59,13 +59,6 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/libnumrecognition.jar</systemPath>
     </dependency>
-    <dependency>
-      <groupId>maxmindgeoip</groupId>
-      <artifactId>maxmindgeoip</artifactId>
-      <version>0.1</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/maxmindgeoip.jar</systemPath>
-    </dependency>
   
     <dependency>
       <groupId>junit</groupId>
@@ -122,6 +115,11 @@
 		<groupId>javax.transaction</groupId>
 		<artifactId>jta</artifactId>
 		<version>1.1</version>
-	</dependency>    
+	</dependency>
+	<dependency>
+		<groupId>com.maxmind.geoip2</groupId>
+		<artifactId>geoip2</artifactId>
+		<version>2.3.1</version>
+	</dependency>
   </dependencies>    
 </project>

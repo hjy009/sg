@@ -48,8 +48,8 @@ public class ProxyTest {
 	@Test
 	public void testGetAnonLevel() {
 		try {
-			String l = proxy.getAnonLevel();
-			assertTrue(l.equals("5"));
+			int l = proxy.getAnonLevel();
+			assertTrue(l==5);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

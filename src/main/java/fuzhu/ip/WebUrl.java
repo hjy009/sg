@@ -10,24 +10,62 @@ package fuzhu.ip;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpException;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.HttpResponseInterceptor;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.AuthSchemes;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.InputStreamFactory;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.protocol.RequestAcceptEncoding;
+import org.apache.http.client.protocol.RequestAddCookies;
+import org.apache.http.client.protocol.RequestAuthCache;
+import org.apache.http.client.protocol.RequestClientConnControl;
+import org.apache.http.client.protocol.RequestDefaultHeaders;
+import org.apache.http.client.protocol.RequestExpectContinue;
+import org.apache.http.client.protocol.ResponseContentEncoding;
+import org.apache.http.client.protocol.ResponseProcessCookies;
+import org.apache.http.config.ConnectionConfig;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.ProxyClient;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.HttpProcessor;
+import org.apache.http.protocol.HttpProcessorBuilder;
+import org.apache.http.protocol.RequestContent;
+import org.apache.http.protocol.RequestTargetHost;
+import org.apache.http.protocol.RequestUserAgent;
 import org.apache.http.util.EntityUtils;
+import org.apache.http.util.VersionInfo;
 
 public class WebUrl{
 	
@@ -47,90 +85,56 @@ public class WebUrl{
 		useProxy = true;
 	}
 	
-	public String getResponseStr() {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        try {
-//            HttpHost target = new HttpHost("www.stilllistener.com", 80, "http");
-            HttpHost target = new HttpHost("www.baidu.com", 80, "http");
-            HttpHost proxy = new HttpHost(ip, 8080, "http");
+  	public String getResponseStr() {
+        String userAgentCopy = VersionInfo.getUserAgent("Apache-HttpClient",
+                        "org.apache.http.client", getClass());
 
-            RequestConfig config = RequestConfig.custom()
-                    .setProxy(proxy)
-                    .build();
-//            HttpGet request = new HttpGet("/checkpoint1/test2/");
-            HttpGet request = new HttpGet("/");
-            request.setConfig(config);
-
-            System.out.println("Executing request " + request.getRequestLine() + " to " + target + " via " + proxy);
-
-            CloseableHttpResponse response = httpclient.execute(target, request);
-            try {
-                System.out.println("----------------------------------------");
-                System.out.println(response.getStatusLine());
-                System.out.println(EntityUtils.toString(response.getEntity()));
-            } finally {
-                response.close();
-            }
-        } catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-            try {
-				httpclient.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        HttpProcessor httpprocessorCopy = null ;
+        if (httpprocessorCopy == null) {
+            final HttpProcessorBuilder b = HttpProcessorBuilder.create();
+            b.addAll(
+                    new RequestDefaultHeaders(null),
+                    new RequestContent(),
+                    new RequestTargetHost(),
+//                    new RequestClientConnControl(),
+                    new RequestUserAgent(userAgentCopy),
+                    new RequestExpectContinue());
+            b.add(new RequestAddCookies());
+            b.add(new RequestAcceptEncoding());
+            b.add(new RequestAuthCache());
+            b.add(new ResponseProcessCookies());
+            b.add(new ResponseContentEncoding());
+            httpprocessorCopy = b.build();
         }
-/*
-        HttpHost proxy = new HttpHost(ip, Integer.parseInt(port),"http");
-		DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+
+        HttpHost proxy = new HttpHost(ip, port,"http");
+//		DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
 		CloseableHttpClient httpclient = HttpClients.custom()
-		        .setRoutePlanner(routePlanner)
+//		        .setRoutePlanner(routePlanner)
 		        .setProxy(proxy)
+		        .setHttpProcessor(httpprocessorCopy)
 		        .build();
-*/		
+
 		String r="";
 		HttpGet httpGet = new HttpGet(url);
 
 //		httpGet.setHeader("GET http://www.stilllistener.com/checkpoint1/test2/ HTTP/1.1","");
-		httpGet.setHeader("Host","www.stilllistener.com");
-		httpGet.setHeader("User-Agent","	Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0");
-		httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		httpGet.setHeader("Accept-Language","zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
-		httpGet.setHeader("Accept-Encoding","gzip, deflate");
-		httpGet.setHeader("Referer",url);
-		httpGet.setHeader("Connection","keep-alive");
-		httpGet.setHeader("Cache-Control","max-age=0");
-		
-		Header[] hds = httpGet.getAllHeaders();
-		for(int i=0;i<hds.length;i++){
-			System.out.println(hds[i].toString());
-		}
-		
-		HttpParams hp =  httpGet.getParams();
-		Double d = hp.getDoubleParameter("org.apache.http.params.BasicHttpParams", 0);
-		System.out.println(d.toString());
-		hp.removeParameter("org.apache.http.params.BasicHttpParams");
-		System.out.println(hp.toString());
+//		httpGet.setHeader("Host","www.stilllistener.com");
+//		httpGet.setHeader("User-Agent","Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0");
+//		httpGet.setHeader("User-Agent","Baiduspider+(+http://www.baidu.com/search/spider.htm)");
+//		httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+//		httpGet.setHeader("Accept-Language","zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
+//		httpGet.setHeader("Accept-Encoding","gzip, deflate");
+//		httpGet.setHeader("Referer",url);
+//		httpGet.setHeader("Connection","keep-alive");
+//		httpGet.setHeader("Cache-Control","max-age=0");
 		
 		CloseableHttpResponse response1 = null;
 		try {
 			response1 = httpclient.execute(httpGet);
 		    HttpEntity entity1 = response1.getEntity();
-		    if(entity1.isChunked()){
-				System.out.println("isChunked");	    	
-		    };
-		    
-			for(int i=0;i<hds.length;i++){
-				System.out.println(hds[i].toString());
-			}
-			
 		    String line = response1.getStatusLine().getReasonPhrase();
-			System.out.println(line);
+//			System.out.println(line);
 			if (line.equals("OK")) {
 				r = EntityUtils.toString(entity1);
 //				System.out.println(r);
